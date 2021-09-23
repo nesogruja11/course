@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class ContentGenre {
 
     @EmbeddedId
-    @Column(name = "content_genre_id")
+    @Column(name = "content_genre_id", nullable = false)
     private ContentGenreKey contentGenreId;
 
     @ManyToOne
