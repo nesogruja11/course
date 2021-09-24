@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ContentDto {
 
-	private int contentId;
+	private Integer contentId;
 	private int contentTypeId;
 	private int coutryId;
 	private int languageId;

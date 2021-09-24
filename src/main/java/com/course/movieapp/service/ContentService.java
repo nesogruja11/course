@@ -75,6 +75,8 @@ public class ContentService {
 
 	private Content createContentFromDto(ContentDto contentDto) throws NotFoundException {
 		Content content = new Content();
+		if (contentDto.getContentId() != null)
+			content.setContentId(contentDto.getContentId());
 		content.setContentType(contentTypeService.findById(contentDto.getContentTypeId()));
 		content.setLanguage(languageService.findById(contentDto.getLanguageId()));
 		content.setCountry(countryService.findById(contentDto.getCoutryId()));
