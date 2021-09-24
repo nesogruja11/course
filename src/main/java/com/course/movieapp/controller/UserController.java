@@ -10,36 +10,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.course.movieapp.dto.ContentDto;
-import com.course.movieapp.model.Content;
-import com.course.movieapp.service.ContentService;
+import com.course.movieapp.dto.UserDto;
+import com.course.movieapp.model.User;
+import com.course.movieapp.service.UserService;
 
 import javassist.NotFoundException;
 
 @RestController
-@RequestMapping("/content")
-public class ContentController {
+@RequestMapping("/user")
+public class UserController {
 
 	@Autowired
-	ContentService contentService;
+	UserService userService;
 
 	@GetMapping
-	public Content findById(@RequestParam int id) throws NotFoundException {
-		return contentService.findById(id);
+	private User findById(@RequestParam int id) throws NotFoundException {
+		return userService.findById(id);
 	}
 
 	@PostMapping("/add")
-	public Content save(@RequestBody ContentDto contentDto) throws NotFoundException {
-		return contentService.save(contentDto);
+	private User save(@RequestBody UserDto userDto) {
+		return userService.save(userDto);
 	}
 
 	@PutMapping("/update")
-	public Content update(@RequestBody ContentDto contentDto) throws NotFoundException {
-		return contentService.update(contentDto);
+	private User update(@RequestBody UserDto userDto) throws NotFoundException {
+		return userService.update(userDto);
 	}
 
 	@DeleteMapping("/delete")
-	public void delete(@RequestParam int id) throws NotFoundException {
-		contentService.delete(id);
+	private void delete(@RequestParam int id) throws NotFoundException {
+		userService.delete(id);
 	}
 }

@@ -5,14 +5,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.course.movieapp.model.Content;
-import com.course.movieapp.model.ContentGenre;
-import com.course.movieapp.model.ContentGenreKey;
+import com.course.movieapp.model.User;
+import com.course.movieapp.model.UserRole;
 
 @Repository
-public interface ContentGenreRepository extends JpaRepository<ContentGenre, ContentGenreKey> {
+public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
 
 	@Transactional
 	@Modifying
-	public void deleteByContent(Content content);
+	public void deleteByUser(User user);
 }

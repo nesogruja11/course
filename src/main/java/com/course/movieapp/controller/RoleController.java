@@ -10,36 +10,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.course.movieapp.dto.ContentDto;
-import com.course.movieapp.model.Content;
-import com.course.movieapp.service.ContentService;
+import com.course.movieapp.model.Role;
+import com.course.movieapp.service.RoleService;
 
 import javassist.NotFoundException;
 
 @RestController
-@RequestMapping("/content")
-public class ContentController {
+@RequestMapping("/role")
+public class RoleController {
 
 	@Autowired
-	ContentService contentService;
+	RoleService roleService;
 
 	@GetMapping
-	public Content findById(@RequestParam int id) throws NotFoundException {
-		return contentService.findById(id);
+	private Role findById(@RequestParam int id) throws NotFoundException {
+		return roleService.findById(id);
 	}
 
 	@PostMapping("/add")
-	public Content save(@RequestBody ContentDto contentDto) throws NotFoundException {
-		return contentService.save(contentDto);
+	private Role save(@RequestBody Role role) {
+		return roleService.save(role);
 	}
 
 	@PutMapping("/update")
-	public Content update(@RequestBody ContentDto contentDto) throws NotFoundException {
-		return contentService.update(contentDto);
+	private Role update(@RequestBody Role role) throws NotFoundException {
+		return roleService.update(role);
 	}
 
 	@DeleteMapping("/delete")
-	public void delete(@RequestParam int id) throws NotFoundException {
-		contentService.delete(id);
+	private void delete(@RequestBody Role role) throws NotFoundException {
+		roleService.delete(role);
 	}
 }
