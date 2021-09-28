@@ -1,7 +1,18 @@
 package com.course.movieapp.model;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "review")
 public class Review {
@@ -21,8 +32,10 @@ public class Review {
     private Content content;
 
     @Column(name = "rating", nullable = true)
-    private int rating;
+    @Min(0)
+    @Max(5)
+    private int rating = 0;
 
-    @Column(name = "favourite", nullable = true)
-    private boolean favourite;
+    @Column(name = "favourite", nullable = true, columnDefinition = "boolean default false")
+    private boolean favourite = false;
 }

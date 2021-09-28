@@ -54,8 +54,8 @@ public class Content {
 	@Column(name = "release_date", nullable = false)
 	private LocalDate releaseDate;
 
-	@Column(name = "rating", nullable = false, columnDefinition = "float default 1")
-	private float rating;
+	@Column(name = "rating", nullable = false)
+	private float rating = 0;
 
 	@Column(name = "cover_link", nullable = false)
 	private String coverLink;

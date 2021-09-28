@@ -1,5 +1,6 @@
 package com.course.movieapp.controller;
 
+import com.course.movieapp.dto.RoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +28,9 @@ public class RoleController {
 		return roleService.findById(id);
 	}
 
-	@PostMapping("/add")
-	private Role save(@RequestBody Role role) {
-		return roleService.save(role);
+	@PostMapping("/save")
+	private Role save(@RequestBody RoleDto roleDto) {
+		return roleService.save(roleDto);
 	}
 
 	@PutMapping("/update")

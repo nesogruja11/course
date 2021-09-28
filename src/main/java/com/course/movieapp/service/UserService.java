@@ -1,6 +1,7 @@
 package com.course.movieapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.course.movieapp.dto.UserDto;
@@ -14,6 +15,8 @@ import com.course.movieapp.repository.UserRoleRepository;
 
 import javassist.NotFoundException;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -25,6 +28,9 @@ public class UserService {
 
 	@Autowired
 	UserRoleRepository userRoleRepository;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	// ulazni argument validirati na endpoint-u sa hibernate anotacijom
 	// password mora biti hashovan kada se doda security
@@ -58,6 +64,10 @@ public class UserService {
 		throw new NotFoundException("Nije pronađen korisnik sa id-em:" + userDto.getUserId());
 	}
 
+	public Optional<User> findUserByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
+
 	public void delete(int id) throws NotFoundException {
 		User user = findById(id);
 		user.setActive(false);
@@ -73,9 +83,9 @@ public class UserService {
 		user.setEmail(userDto.getEmail());
 		user.setFirstName(userDto.getFirstName());
 		user.setLastName(userDto.getLastName());
-		user.setPassword(userDto.getPassword());
+		user.setPassword(passwordEncoder.encode(userDto.getPhoneNumber()));
 		user.setPhoneNumber(userDto.getPhoneNumber());
-		user.setUserName(userDto.getUserName());
+		user.setUsername(userDto.getUserName());
 
 		return user;
 	}

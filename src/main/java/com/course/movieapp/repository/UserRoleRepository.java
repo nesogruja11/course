@@ -8,10 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.course.movieapp.model.User;
 import com.course.movieapp.model.UserRole;
 
+import java.util.List;
+
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
 
 	@Transactional
 	@Modifying
 	public void deleteByUser(User user);
+
+	public List<UserRole> findByUser(User user);
 }

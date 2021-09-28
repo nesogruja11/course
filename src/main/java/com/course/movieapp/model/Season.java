@@ -18,7 +18,6 @@ public class Season {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "season_id", nullable = false)
     private int seasonId;
 
     @ManyToOne
