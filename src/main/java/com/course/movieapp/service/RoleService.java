@@ -1,5 +1,6 @@
 package com.course.movieapp.service;
 
+import com.course.movieapp.dto.RoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,9 @@ public class RoleService {
 	RoleRepository roleRepository;
 
 	// ulazni argument validirati na endpoint-u sa hibernate anotacijom
-	public Role save(Role role) {
+	public Role save(RoleDto roleDto) {
+		Role role = new Role();
+		role.setName(roleDto.getName());
 		return roleRepository.save(role);
 	}
 
@@ -32,9 +35,10 @@ public class RoleService {
 	}
 
 	public void delete(Role role) throws NotFoundException {
-		if (roleRepository.existsById(role.getRoleId())) {
+		if(roleRepository.existsById(role.getRoleId())){
 			roleRepository.delete(role);
+		}else{
+			throw new NotFoundException("Nije pronađena rola sa id-em:" + role.getRoleId());
 		}
-		throw new NotFoundException("Nije pronađena rola sa id-em:" + role.getRoleId());
 	}
 }

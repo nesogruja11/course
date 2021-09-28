@@ -32,4 +32,7 @@ public class MoviePeople {
 
     @Column(name = "gender", nullable = false)
     private char gender;
+
+    @Column(name = "active", nullable = false, columnDefinition = "boolean default true")
+    private boolean active = true;
 }

@@ -1,5 +1,6 @@
 package com.course.movieapp.service;
 
+import com.course.movieapp.dto.MovieRoleDto;
 import com.course.movieapp.model.MovieRole;
 import com.course.movieapp.model.Role;
 import com.course.movieapp.repository.MovieRoleRepository;
@@ -15,8 +16,8 @@ public class MovieRoleService {
     MovieRoleRepository movieRoleRepository;
 
     // ulazni argument validirati na endpoint-u sa hibernate anotacijom
-    public MovieRole save(MovieRole movieRole) {
-        return movieRoleRepository.save(movieRole);
+    public MovieRole save(MovieRoleDto movieRoleDto) {
+        return movieRoleRepository.save(movieRoleDto.buildMovieRoleFromDto());
     }
 
     public MovieRole findById(int id) throws NotFoundException {
@@ -34,7 +35,8 @@ public class MovieRoleService {
     public void delete(MovieRole movieRole) throws NotFoundException {
         if (movieRoleRepository.existsById(movieRole.getMovieRoleId())) {
             movieRoleRepository.delete(movieRole);
+        }else{
+            throw new NotFoundException("Nije pronađena uloga sa id-em:" + movieRole.getMovieRoleId());
         }
-        throw new NotFoundException("Nije pronađena uloga sa id-em:" + movieRole.getMovieRoleId());
     }
 }

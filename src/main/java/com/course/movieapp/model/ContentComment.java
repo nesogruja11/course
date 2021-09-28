@@ -21,11 +21,11 @@ public class ContentComment {
     private int commentId;
 
     @ManyToOne
-    @JoinColumn(name = "content_id")
+    @JoinColumn(name = "content_id", nullable = false)
     private Content content;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "replay_id", nullable = true)
