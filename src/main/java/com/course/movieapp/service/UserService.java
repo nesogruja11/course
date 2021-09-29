@@ -1,5 +1,7 @@
 package com.course.movieapp.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,6 @@ import com.course.movieapp.repository.UserRepository;
 import com.course.movieapp.repository.UserRoleRepository;
 
 import javassist.NotFoundException;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -83,7 +83,7 @@ public class UserService {
 		user.setEmail(userDto.getEmail());
 		user.setFirstName(userDto.getFirstName());
 		user.setLastName(userDto.getLastName());
-		user.setPassword(passwordEncoder.encode(userDto.getPhoneNumber()));
+		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		user.setPhoneNumber(userDto.getPhoneNumber());
 		user.setUsername(userDto.getUserName());
 
