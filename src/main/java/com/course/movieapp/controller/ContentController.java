@@ -1,10 +1,8 @@
 package com.course.movieapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,13 +31,23 @@ public class ContentController {
 		return contentService.save(contentDto);
 	}
 
-	@PutMapping("/update")
-	public Content update(@RequestBody ContentDto contentDto) throws NotFoundException {
-		return contentService.update(contentDto);
+	@PostMapping("/save-movie")
+	public Content saveMovie(@RequestBody ContentDto contenDto) {
+		return null;
 	}
 
-	@DeleteMapping("/delete")
-	public void delete(@RequestParam int id) throws NotFoundException {
-		contentService.delete(id);
+	@PostMapping("/save-serie")
+	public Content saveSerie() {
+		return null;
 	}
+
+	/*
+	 * @PutMapping("/update") public Content update(@RequestBody ContentDto
+	 * contentDto) throws NotFoundException { return
+	 * contentService.update(contentDto); }
+	 * 
+	 * @DeleteMapping("/delete") public void delete(@RequestParam int id) throws
+	 * NotFoundException { contentService.delete(id); }
+	 * 
+	 */
 }

@@ -1,16 +1,28 @@
 package com.course.movieapp.repository;
 
-import com.course.movieapp.model.Review;
-import com.course.movieapp.model.ReviewKey;
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
+import com.course.movieapp.model.Content;
+import com.course.movieapp.model.Review;
+import com.course.movieapp.model.ReviewKey;
+
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Integer> {
+public interface ReviewRepository extends JpaRepository<Review, ReviewKey> {
 
-    boolean existsByReviewKey(ReviewKey reviewKey);
+	@Transactional
+	@Modifying
+	void deleteByContent(Content content);
 
-    void deleteByReviewKey(ReviewKey reviewKey);
+	@Transactional
+	@Modifying
+	void deleteByReviewKey(ReviewKey reviewKey);
 
-    Review findByReviewKey(ReviewKey reviewKey);
+	Review findByReviewKey(ReviewKey reviewKey);
+
+	boolean existsByReviewKey(ReviewKey reviewKey);
+
 }

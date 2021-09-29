@@ -66,6 +66,4 @@ public class Content {
 	@OneToMany(mappedBy = "content")
 	private List<ContentGenre> contentGenreList;
 
-	@Column(name = "active", nullable = false, columnDefinition = "boolean default true")
-	private boolean active = true;
 }

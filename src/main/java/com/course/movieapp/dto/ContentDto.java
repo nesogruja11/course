@@ -5,14 +5,15 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ContentDto {
 
-	private Integer contentId;
 	private int contentTypeId;
 	private int coutryId;
 	private int languageId;
@@ -23,4 +24,6 @@ public class ContentDto {
 	private String coverLink;
 	private String trailerLink;
 	private List<Integer> genreIds;
+	private List<MovieCastDto> movieCastList;
+
 }
