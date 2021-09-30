@@ -1,6 +1,9 @@
 package com.course.movieapp.controller;
 
 import com.course.movieapp.configuration.UserDetailsServiceImpl;
+import com.course.movieapp.dto.ForgotPasswordDto;
+import com.course.movieapp.dto.ResetPasswordDto;
+import com.course.movieapp.exception.TokenExpiredException;
 import com.course.movieapp.model.AuthenticationRequest;
 import com.course.movieapp.model.AuthenticationResponse;
 import com.course.movieapp.util.JwtUtil;
@@ -64,7 +67,7 @@ public class UserController {
         userService.delete(id);
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
             throws Exception {
         try {
@@ -79,5 +82,15 @@ public class UserController {
         final String jwt = jwtUtil.generateToken(userDetails);
 
         return new ResponseEntity<AuthenticationResponse>(new AuthenticationResponse(jwt), HttpStatus.OK);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto) throws NotFoundException {
+        userService.forgotPassword(forgotPasswordDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public User resetPassword(@RequestParam String token, @RequestBody ResetPasswordDto resetPasswordDto) throws NotFoundException, TokenExpiredException {
+        return userService.resetPassword(token, resetPasswordDto);
     }
 }
