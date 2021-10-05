@@ -38,7 +38,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/user/register", "/user/login", "/content/save-movie").permitAll()
-                .antMatchers("/movie-role/**", "/movie-people/**").hasRole("ADMIN")
+                .antMatchers("/movie-role/**", "/movie-people/**", "/language/**").hasRole("ADMIN")
              //   .antMatchers("/test/user").hasAnyRole("USER")
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
