@@ -40,7 +40,7 @@ public class MoviePeopleController {
 	}
 
 	@DeleteMapping("/delete")
-	public void delete(@RequestParam MoviePeople moviePeople) throws NotFoundException {
-		moviePeopleService.delete(moviePeople);
+	public void delete(@RequestParam int id) throws NotFoundException {
+		moviePeopleService.delete(id);
 	}
 }

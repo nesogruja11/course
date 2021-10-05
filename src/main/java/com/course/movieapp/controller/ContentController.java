@@ -32,22 +32,12 @@ public class ContentController {
 	}
 
 	@PostMapping("/save-movie")
-	public Content saveMovie(@RequestBody ContentDto contenDto) {
-		return null;
+	public Content saveMovie(@RequestBody ContentDto contenDto) throws NotFoundException {
+		return contentService.saveMovie(contenDto);
 	}
 
 	@PostMapping("/save-serie")
 	public Content saveSerie() {
 		return null;
 	}
-
-	/*
-	 * @PutMapping("/update") public Content update(@RequestBody ContentDto
-	 * contentDto) throws NotFoundException { return
-	 * contentService.update(contentDto); }
-	 * 
-	 * @DeleteMapping("/delete") public void delete(@RequestParam int id) throws
-	 * NotFoundException { contentService.delete(id); }
-	 * 
-	 */
 }
