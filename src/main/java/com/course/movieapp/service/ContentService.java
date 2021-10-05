@@ -74,9 +74,9 @@ public class ContentService {
 	public Content saveMovie(ContentDto contentDto) throws NotFoundException {
 		Content content = contentRepository.save(createContentFromDto(contentDto));
 
-		contentDto.getGenreIds().forEach(id -> {
-			ContentGenreKey key = new ContentGenreKey(content.getContentId(), id);
-			Genre genre = genreRepository.getById(id);
+		contentDto.getGenreIds().forEach(genreId -> {
+			ContentGenreKey key = new ContentGenreKey(content.getContentId(), genreId);
+			Genre genre = genreRepository.getById(genreId);
 			contentGenreRepository.save(new ContentGenre(key, genre, content));
 		});
 

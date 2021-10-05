@@ -17,28 +17,28 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
+	@Autowired
+	UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    JwtRequestFilter jwtRequestFilter;
+	@Autowired
+	JwtRequestFilter jwtRequestFilter;
 
-    // authentication
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-    }
+	// authentication
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+	}
 
-    // authorization
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
+	// authorization
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		// @formatter:off
 
             http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/save", "/user/authenticate").permitAll()
-                .antMatchers("/test/hello").hasRole("ADMIN")
+                .antMatchers("/user/register", "/user/login", "/content/save-movie").permitAll()
+                .antMatchers("/movie-role/**", "/movie-people/**").hasRole("ADMIN")
              //   .antMatchers("/test/user").hasAnyRole("USER")
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -46,16 +46,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         // @formatter:on
-    }
+	}
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder(11);
-    }
+	@Bean
+	public PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder(11);
+	}
 }
