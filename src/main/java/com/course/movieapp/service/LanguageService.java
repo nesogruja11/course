@@ -34,8 +34,9 @@ public class LanguageService {
 	public void delete(int languageId) throws NotFoundException {
 		if (languageRepository.existsById(languageId)) {
 			languageRepository.deleteById(languageId);
+		} else {
+			throw new NotFoundException("Nije pronađen jezik sa id-em:" + languageId);
 		}
-		throw new NotFoundException("Nije pronađen jezik sa id-em:" + languageId);
 	}
 
 	private Language createLanguageFromDto(LanguageDto languageDto) {
