@@ -10,10 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContentCommentDto {
-
-    private int commentId;
-    private int userId;
-    private int contentId;
-    private String comment;
-    private Integer replayId;
+	private int userId;
+	private int contentId;
+	private String comment;
+	private Integer replayId;
 }

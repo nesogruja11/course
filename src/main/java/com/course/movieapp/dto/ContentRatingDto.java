@@ -1,5 +1,8 @@
 package com.course.movieapp.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +12,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieCastDto {
-	private int movieRoleId;
-	private int moviePeopleId;
+public class ContentRatingDto {
 
+	private int userId;
+	private int contentId;
+	@Min(1)
+	@Max(5)
+	private int rating;
 }

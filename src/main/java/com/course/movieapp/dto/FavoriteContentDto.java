@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieCastDto {
-	private int movieRoleId;
-	private int moviePeopleId;
-
+public class FavoriteContentDto {
+	private int userId;
+	private int contentId;
+	private boolean favourite;
 }

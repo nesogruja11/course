@@ -1,5 +1,7 @@
 package com.course.movieapp.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +26,7 @@ public interface ReviewRepository extends JpaRepository<Review, ReviewKey> {
 	Review findByReviewKey(ReviewKey reviewKey);
 
 	boolean existsByReviewKey(ReviewKey reviewKey);
+
+	List<Review> findByContent(Content content);
 
 }
