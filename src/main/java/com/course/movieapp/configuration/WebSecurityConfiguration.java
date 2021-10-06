@@ -37,8 +37,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/register", "/user/login", "/content/save-movie").permitAll()
-                .antMatchers("/movie-role/**", "/movie-people/**", "/language/**","/content-type/**", "/country/**", "/genre/**").hasRole("ADMIN")
+                .antMatchers("/user/register", "/user/login").permitAll()
+                .antMatchers("/movie-role/**", "/movie-people/**", "/language/**","/content-type/**", "/country/**", "/genre/**", "/content/**", "/user/rating").hasRole("ADMIN")
              //   .antMatchers("/test/user").hasAnyRole("USER")
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

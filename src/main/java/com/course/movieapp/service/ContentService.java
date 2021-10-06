@@ -60,16 +60,16 @@ public class ContentService {
 	@Autowired
 	ReviewRepository reviewRepository;
 
-	// ulazni argument validirati na endpoint-u sa hibernate anotacijom
-	public Content save(ContentDto contentDto) throws NotFoundException {
-		Content content = contentRepository.save(createContentFromDto(contentDto));
-		contentDto.getGenreIds().forEach(id -> {
-			ContentGenreKey key = new ContentGenreKey(content.getContentId(), id);
-			Genre genre = genreRepository.getById(id);
-			contentGenreRepository.save(new ContentGenre(key, genre, content));
-		});
-		return content;
-	}
+//	// ulazni argument validirati na endpoint-u sa hibernate anotacijom
+//	public Content save(ContentDto contentDto) throws NotFoundException {
+//		Content content = contentRepository.save(createContentFromDto(contentDto));
+//		contentDto.getGenreIds().forEach(id -> {
+//			ContentGenreKey key = new ContentGenreKey(content.getContentId(), id);
+//			Genre genre = genreRepository.getById(id);
+//			contentGenreRepository.save(new ContentGenre(key, genre, content));
+//		});
+//		return content;
+//	}
 
 	public Content saveMovie(ContentDto contentDto) throws NotFoundException {
 		Content content = contentRepository.save(createContentFromDto(contentDto));
@@ -81,7 +81,7 @@ public class ContentService {
 		});
 
 		contentDto.getMovieCastList().forEach(movieCast -> {
-			MovieCastKey key = new MovieCastKey(movieCast.getContentId(), movieCast.getMovieRoleId(),
+			MovieCastKey key = new MovieCastKey(content.getContentId(), movieCast.getMovieRoleId(),
 					movieCast.getMoviePeopleId());
 			MoviePeople moviePeople = moviePeopleRepository.getById(movieCast.getMoviePeopleId());
 			MovieRole movieRole = movieRoleRepository.getById(movieCast.getMovieRoleId());
@@ -110,7 +110,7 @@ public class ContentService {
 			});
 
 			contentDto.getMovieCastList().forEach(movieCast -> {
-				MovieCastKey key = new MovieCastKey(movieCast.getContentId(), movieCast.getMovieRoleId(),
+				MovieCastKey key = new MovieCastKey(content.getContentId(), movieCast.getMovieRoleId(),
 						movieCast.getMoviePeopleId());
 				MoviePeople moviePeople = moviePeopleRepository.getById(movieCast.getMoviePeopleId());
 				MovieRole movieRole = movieRoleRepository.getById(movieCast.getMovieRoleId());
@@ -120,7 +120,7 @@ public class ContentService {
 			return content;
 		}
 
-		throw new NotFoundException("Ne postoji sadržaj sa id-em:" + contentDto.getContentId());
+		throw new NotFoundException("Nije pronađen sadržaj sa id-em:" + contentDto.getContentId());
 	}
 
 	public Content findById(int id) throws NotFoundException {

@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.course.movieapp.configuration.UserDetailsServiceImpl;
+import com.course.movieapp.dto.ContentCommentDto;
+import com.course.movieapp.dto.ContentRatingDto;
+import com.course.movieapp.dto.FavoriteContentDto;
 import com.course.movieapp.dto.ForgotPasswordDto;
 import com.course.movieapp.dto.ResetPasswordDto;
 import com.course.movieapp.dto.UserDto;
@@ -90,8 +93,24 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@PostMapping("/reset-password")
 	public User resetPassword(@RequestParam String token, @RequestBody ResetPasswordDto resetPasswordDto)
 			throws NotFoundException, TokenExpiredException {
 		return userService.resetPassword(token, resetPasswordDto);
+	}
+
+	@PostMapping("/rating")
+	public void rateTheContent(@RequestBody ContentRatingDto contentRatingDto) throws NotFoundException {
+		userService.rateTheContent(contentRatingDto);
+	}
+
+	@PostMapping("/favourite")
+	public void favourTheContent(@RequestBody FavoriteContentDto faovurContentDto) throws NotFoundException {
+		userService.favourTheContent(faovurContentDto);
+	}
+
+	@PostMapping("/comment")
+	public void commentTheContent(@RequestBody ContentCommentDto contentCommentDto) throws NotFoundException {
+		userService.commentTheContent(contentCommentDto);
 	}
 }
