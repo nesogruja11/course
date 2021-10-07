@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.course.movieapp.dto.ContentByCategoryDto;
-import com.course.movieapp.dto.ContentDto;
-import com.course.movieapp.dto.ContentUpdateDto;
 import com.course.movieapp.dto.MovieDetailsDto;
+import com.course.movieapp.dto.SaveMovieDto;
+import com.course.movieapp.dto.SaveSerieDto;
+import com.course.movieapp.dto.UpdateMovieDto;
+import com.course.movieapp.dto.UpdateSerieDto;
 import com.course.movieapp.model.Content;
 import com.course.movieapp.service.ContentService;
 
@@ -34,18 +36,18 @@ public class ContentController {
 	}
 
 	@PostMapping("/save-movie")
-	public Content saveMovie(@RequestBody ContentDto contenDto) throws NotFoundException {
-		return contentService.saveMovie(contenDto);
+	public Content saveMovie(@RequestBody SaveMovieDto saveMovieDto) throws NotFoundException {
+		return contentService.saveMovie(saveMovieDto);
 	}
 
 	@PutMapping("/update-movie")
-	public Content updateMovie(@RequestBody ContentUpdateDto contentUpdateDto) throws NotFoundException {
-		return contentService.updateMovie(contentUpdateDto);
+	public Content updateMovie(@RequestBody UpdateMovieDto updateMovieDto) throws NotFoundException {
+		return contentService.updateMovie(updateMovieDto);
 	}
 
-	@DeleteMapping("/delete-movie")
-	public void deleteMovie(@RequestParam int id) throws NotFoundException {
-		contentService.deleteMovie(id);
+	@DeleteMapping("/delete")
+	public void deleteContent(@RequestParam int id) throws NotFoundException {
+		contentService.deleteContent(id);
 	}
 
 	@PostMapping("/by-category")
@@ -60,7 +62,13 @@ public class ContentController {
 	}
 
 	@PostMapping("/save-serie")
-	public Content saveSerie() {
-		return null;
+	public Content saveSerie(@RequestBody SaveSerieDto saveSerieDto) throws NotFoundException {
+		return contentService.saveSerie(saveSerieDto);
 	}
+
+	@PutMapping("/update-serie")
+	public Content updateSerie(@RequestBody UpdateSerieDto updateSerieDto) throws NotFoundException {
+		return contentService.updateSerie(updateSerieDto);
+	}
+
 }
