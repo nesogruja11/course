@@ -24,6 +24,4 @@ public class ContentDto {
 	private String coverLink;
 	private String trailerLink;
 	private List<Integer> genreIds;
-	private List<MovieCastDto> movieCastList;
-
 }

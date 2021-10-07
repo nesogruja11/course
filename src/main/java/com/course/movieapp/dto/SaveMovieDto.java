@@ -1,5 +1,7 @@
 package com.course.movieapp.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieCastDto {
-	private int movieRoleId;
-	private int moviePeopleId;
+public class SaveMovieDto extends ContentDto {
 
+	private List<ContentCastDto> movieCastList;
 }
