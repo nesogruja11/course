@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.course.movieapp.dto.ContentCommentDto;
+import com.course.movieapp.dto.EditCommentDto;
 import com.course.movieapp.model.ContentComment;
 import com.course.movieapp.repository.ContentCommentRepository;
 
@@ -21,20 +22,27 @@ public class ContentCommentService {
 	@Autowired
 	UserService userService;
 
-	public ContentComment save(ContentCommentDto contentCommentDto) throws NotFoundException {
-		return contentCommentRepository.save(createContentCommentFromDto(contentCommentDto));
+	public void save(ContentCommentDto contentCommentDto) throws NotFoundException {
+		contentCommentRepository.save(createContentCommentFromDto(contentCommentDto));
 	}
 
-	/*
-	 * 
-	 * public ContentComment update(ContentCommentDto contentCommentDto) throws
-	 * NotFoundException { if(checkIfCommentExist(contentCommentDto.getCommentId(),
-	 * contentCommentDto.getReplayId())){ return
-	 * contentCommentRepository.save(buildContentCommentFromDto(contentCommentDto));
-	 * } throw new
-	 * NotFoundException("Nije pronađen komentar sa id-em:"+contentCommentDto.
-	 * getCommentId()); }
-	 */
+	public void edit(EditCommentDto editCommentDto) throws NotFoundException {
+		if (contentCommentRepository.existsById(editCommentDto.getCommentId())) {
+			ContentComment contentComment = contentCommentRepository.getById(editCommentDto.getCommentId());
+			contentComment.setComment(editCommentDto.getComment());
+			contentCommentRepository.save(contentComment);
+		} else {
+			throw new NotFoundException("Nije pronađen komentar sa id-em:" + editCommentDto.getCommentId());
+		}
+	}
+
+	public void delete(int commentId) throws NotFoundException {
+		if (contentCommentRepository.existsById(commentId)) {
+			contentCommentRepository.deleteById(commentId);
+		} else {
+			throw new NotFoundException("Nije pronađen komentar sa id-em:" + commentId);
+		}
+	}
 
 	public ContentComment findById(int id) throws NotFoundException {
 		return contentCommentRepository.findById(id)

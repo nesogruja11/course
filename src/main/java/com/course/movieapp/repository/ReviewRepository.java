@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.course.movieapp.model.Content;
 import com.course.movieapp.model.Review;
 import com.course.movieapp.model.ReviewKey;
+import com.course.movieapp.model.User;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, ReviewKey> {
@@ -29,4 +30,5 @@ public interface ReviewRepository extends JpaRepository<Review, ReviewKey> {
 
 	List<Review> findByContent(Content content);
 
+	List<Review> findByUserAndFavourite(User user, boolean favourite);
 }

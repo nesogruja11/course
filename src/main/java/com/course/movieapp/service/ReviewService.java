@@ -9,6 +9,7 @@ import com.course.movieapp.dto.ReviewDto;
 import com.course.movieapp.model.Content;
 import com.course.movieapp.model.Review;
 import com.course.movieapp.model.ReviewKey;
+import com.course.movieapp.model.User;
 import com.course.movieapp.repository.ReviewRepository;
 
 import javassist.NotFoundException;
@@ -69,6 +70,10 @@ public class ReviewService {
 
 	public List<Review> findByContent(Content content) {
 		return reviewRepository.findByContent(content);
+	}
+
+	public List<Review> findByUserAndFavourite(User user, boolean favourite) {
+		return reviewRepository.findByUserAndFavourite(user, favourite);
 	}
 
 	private Review buildReviewFromDto(ReviewDto reviewDto) throws NotFoundException {

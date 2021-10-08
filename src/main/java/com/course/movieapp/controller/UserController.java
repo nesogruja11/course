@@ -1,5 +1,7 @@
 package com.course.movieapp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.course.movieapp.configuration.UserDetailsServiceImpl;
 import com.course.movieapp.dto.ContentCommentDto;
 import com.course.movieapp.dto.ContentRatingDto;
+import com.course.movieapp.dto.EditCommentDto;
 import com.course.movieapp.dto.FavoriteContentDto;
 import com.course.movieapp.dto.ForgotPasswordDto;
 import com.course.movieapp.dto.ResetPasswordDto;
@@ -28,6 +31,7 @@ import com.course.movieapp.dto.UserDto;
 import com.course.movieapp.exception.TokenExpiredException;
 import com.course.movieapp.model.AuthenticationRequest;
 import com.course.movieapp.model.AuthenticationResponse;
+import com.course.movieapp.model.Content;
 import com.course.movieapp.model.User;
 import com.course.movieapp.service.UserService;
 import com.course.movieapp.util.JwtUtil;
@@ -37,6 +41,9 @@ import javassist.NotFoundException;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+	private static final int FILM = 1;
+	private static final int SERIJA = 2;
 
 	@Autowired
 	UserService userService;
@@ -104,7 +111,7 @@ public class UserController {
 		userService.rateTheContent(contentRatingDto);
 	}
 
-	@PostMapping("/favourite")
+	@PostMapping("/favour")
 	public void favourTheContent(@RequestBody FavoriteContentDto faovurContentDto) throws NotFoundException {
 		userService.favourTheContent(faovurContentDto);
 	}
@@ -112,5 +119,25 @@ public class UserController {
 	@PostMapping("/comment")
 	public void commentTheContent(@RequestBody ContentCommentDto contentCommentDto) throws NotFoundException {
 		userService.commentTheContent(contentCommentDto);
+	}
+
+	@PutMapping("/edit-comment")
+	public void editComment(@RequestBody EditCommentDto editCommentDto) throws NotFoundException {
+		userService.editComment(editCommentDto);
+	}
+
+	@DeleteMapping("/delete-comment")
+	public void deleteComment(@RequestParam int id) throws NotFoundException {
+		userService.deleteComment(id);
+	}
+
+	@GetMapping("/favourite-movies")
+	public List<Content> getFavouriteMovies() {
+		return userService.getFavouriteContent(FILM);
+	}
+
+	@GetMapping("/favourite-series")
+	public List<Content> getFavouriteSeries() {
+		return userService.getFavouriteContent(SERIJA);
 	}
 }
