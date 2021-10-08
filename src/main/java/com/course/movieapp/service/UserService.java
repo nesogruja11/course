@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.course.movieapp.dto.ContentCommentDto;
 import com.course.movieapp.dto.ContentRatingDto;
+import com.course.movieapp.dto.EditCommentDto;
 import com.course.movieapp.dto.FavoriteContentDto;
 import com.course.movieapp.dto.ForgotPasswordDto;
 import com.course.movieapp.dto.ResetPasswordDto;
@@ -34,6 +35,7 @@ import com.course.movieapp.repository.ReviewRepository;
 import com.course.movieapp.repository.RoleRepository;
 import com.course.movieapp.repository.UserRepository;
 import com.course.movieapp.repository.UserRoleRepository;
+import com.course.movieapp.utils.SecurityUtils;
 
 import javassist.NotFoundException;
 
@@ -167,6 +169,7 @@ public class UserService {
 		}
 	}
 
+	// korisnika mozemo pokupiti iz security context holder-a
 	public void favourTheContent(FavoriteContentDto faovurContentDto) throws NotFoundException {
 		Content content = contentService.findById(faovurContentDto.getContentId());
 		User user = findById(faovurContentDto.getUserId());
@@ -184,6 +187,24 @@ public class UserService {
 
 	public void commentTheContent(ContentCommentDto contentCommentDto) throws NotFoundException {
 		contentCommentService.save(contentCommentDto);
+	}
+
+	public void editComment(EditCommentDto editCommentDto) throws NotFoundException {
+		contentCommentService.edit(editCommentDto);
+	}
+
+	public void deleteComment(int id) throws NotFoundException {
+		contentCommentService.delete(id);
+	}
+
+	public List<Content> getFavouriteContent(int contentTypeId) {
+		String userName = SecurityUtils.getUsername();
+		User user = findUserByUsername(userName).get();
+		List<Content> contents = reviewService.findByUserAndFavourite(user, true).stream()
+				.filter(e -> e.getContent().getContentType().getContentTypeId() == contentTypeId)
+				.map(e -> e.getContent()).collect(Collectors.toList());
+
+		return contents;
 	}
 
 	private float calculateContentRating(Content content) {

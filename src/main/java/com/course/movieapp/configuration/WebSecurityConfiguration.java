@@ -17,6 +17,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	private static final String[] ADMIN_URLS = { "/movie-role/**", "/movie-people/**", "/language/**",
+			"/content-type/**", "/country/**", "/genre/**", "/content/**" };
+
+	private static final String[] USER_URLS = { "/user/rating", "/user/update", "/user/favour", "/user/comment",
+			"/user/edit-comment", "/user/delete-comment", "/user/favourite-movies", "/user/favourite-series" };
+
+	private static final String[] PERMIT_ALL_URLS = { "/user/register", "/user/login", "/user/forgot-password",
+			"/user/reset-password" };
+
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
 
@@ -37,9 +46,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/register", "/user/login").permitAll()
-                .antMatchers("/movie-role/**", "/movie-people/**", "/language/**","/content-type/**", "/country/**", "/genre/**", "/content/**", "/user/rating").hasRole("ADMIN")
-             //   .antMatchers("/test/user").hasAnyRole("USER")
+                .antMatchers(PERMIT_ALL_URLS).permitAll()
+                .antMatchers(ADMIN_URLS).hasRole("ADMIN")
+                .antMatchers(USER_URLS).hasAnyRole("USER")
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             http
