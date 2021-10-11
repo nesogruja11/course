@@ -28,6 +28,7 @@ import com.course.movieapp.dto.FavoriteContentDto;
 import com.course.movieapp.dto.ForgotPasswordDto;
 import com.course.movieapp.dto.ResetPasswordDto;
 import com.course.movieapp.dto.UserDto;
+import com.course.movieapp.exception.RegistrationException;
 import com.course.movieapp.exception.TokenExpiredException;
 import com.course.movieapp.model.AuthenticationRequest;
 import com.course.movieapp.model.AuthenticationResponse;
@@ -63,7 +64,7 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	private User save(@RequestBody UserDto userDto) {
+	private User save(@RequestBody UserDto userDto) throws RegistrationException {
 		return userService.save(userDto);
 	}
 
