@@ -94,7 +94,7 @@ public class UserService {
 			return userRepository.save(user);
 		}
 
-		throw new RegistrationException("E-mail:" + userDto.getEmail() + " je zauzet!");
+		throw new RegistrationException("E-mail i username moraju biti jedinstveni!");
 	}
 
 	public User findById(int id) throws NotFoundException {
