@@ -34,7 +34,13 @@ public class RestResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<ErrorMessage> notFoundExceptionHandler(IllegalArgumentException ex, WebRequest request) {
+	public ResponseEntity<ErrorMessage> illegalArgumentExceptionHandler(IllegalArgumentException ex,
+			WebRequest request) {
+		return errorBuilder(ex.getMessage(), request, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(RegistrationException.class)
+	public ResponseEntity<ErrorMessage> registrationExceptionHandler(RegistrationException ex, WebRequest request) {
 		return errorBuilder(ex.getMessage(), request, HttpStatus.BAD_REQUEST);
 	}
 

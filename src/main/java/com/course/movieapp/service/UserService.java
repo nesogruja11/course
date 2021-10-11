@@ -20,6 +20,7 @@ import com.course.movieapp.dto.ForgotPasswordDto;
 import com.course.movieapp.dto.ResetPasswordDto;
 import com.course.movieapp.dto.ReviewDto;
 import com.course.movieapp.dto.UserDto;
+import com.course.movieapp.exception.RegistrationException;
 import com.course.movieapp.exception.TokenExpiredException;
 import com.course.movieapp.model.Content;
 import com.course.movieapp.model.PasswordResetToken;
@@ -81,14 +82,19 @@ public class UserService {
 	@Value("${server.port}")
 	int serverPort;
 
-	public User save(UserDto userDto) {
-		User user = userRepository.save(buildUserFromDto(userDto));
-		userDto.getRoleIds().forEach(roleId -> {
-			UserRoleKey key = new UserRoleKey(user.getUserId(), roleId);
-			Role role = roleRepository.getById(roleId);
-			userRoleRepository.save(new UserRole(key, user, role));
-		});
-		return userRepository.save(user);
+	public User save(UserDto userDto) throws RegistrationException {
+		if (!userRepository.existsByEmail(userDto.getEmail())
+				&& !userRepository.existsByUsername(userDto.getUserName())) {
+			User user = userRepository.save(buildUserFromDto(userDto));
+			userDto.getRoleIds().forEach(roleId -> {
+				UserRoleKey key = new UserRoleKey(user.getUserId(), roleId);
+				Role role = roleRepository.getById(roleId);
+				userRoleRepository.save(new UserRole(key, user, role));
+			});
+			return userRepository.save(user);
+		}
+
+		throw new RegistrationException("E-mail:" + userDto.getEmail() + " je zauzet!");
 	}
 
 	public User findById(int id) throws NotFoundException {
