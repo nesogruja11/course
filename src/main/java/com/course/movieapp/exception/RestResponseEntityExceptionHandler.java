@@ -5,27 +5,53 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException.Unauthorized;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+
+import com.course.movieapp.utils.FormatUtils;
 
 import javassist.NotFoundException;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler {
+
 	@Value("${debug.response}")
 	private boolean debug;
 
-	@ExceptionHandler(NotFoundException.class)
-	public ResponseEntity<ErrorMessage> notFoundExceptionHandler(NotFoundException ex, WebRequest request) {
-		return errorBuilder(ex, request, ex.getMessage(), HttpStatus.NOT_FOUND);
+	@ExceptionHandler(AuthenticationException.class)
+	public ResponseEntity<ErrorMessage> notAuthorizedExceptionHandler(Unauthorized ex, WebRequest request) {
+		return errorBuilder(ex.getMessage(), request, HttpStatus.UNAUTHORIZED);
 	}
 
-	private ResponseEntity<ErrorMessage> errorBuilder(Exception ex, WebRequest request, String errorMessage,
-			HttpStatus status) {
-		ErrorMessage message = new ErrorMessage(new Date(), status.value(),
-				errorMessage + (debug ? ex.getMessage() : ""), request.getDescription(false));
+	@ExceptionHandler(NotFoundException.class)
+	public ResponseEntity<ErrorMessage> notFoundExceptionHandler(NotFoundException ex, WebRequest request) {
+		return errorBuilder(ex.getMessage(), request, HttpStatus.NOT_FOUND);
+	}
 
-		return new ResponseEntity<ErrorMessage>(message, status);
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<ErrorMessage> notFoundExceptionHandler(IllegalArgumentException ex, WebRequest request) {
+		return errorBuilder(ex.getMessage(), request, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<ErrorMessage> handleValidationExceptions(MethodArgumentNotValidException ex,
+			WebRequest request) {
+		StringBuilder sb = new StringBuilder();
+		ex.getBindingResult().getAllErrors().forEach((error) -> {
+			sb.append(error.getDefaultMessage() + " ");
+		});
+		return errorBuilder(sb.toString(), request, HttpStatus.BAD_REQUEST);
+	}
+
+	private ResponseEntity<ErrorMessage> errorBuilder(String message, WebRequest request, HttpStatus status) {
+		ErrorMessage errorMessage = new ErrorMessage(FormatUtils.getSimpleDateFormat().format(new Date()),
+				status.value(), (debug ? message : ""),
+				((ServletWebRequest) request).getRequest().getRequestURI().toString());
+		return new ResponseEntity<ErrorMessage>(errorMessage, status);
 	}
 }

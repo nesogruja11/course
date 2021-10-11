@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.course.movieapp.exception.CustomAccessDeniedHandler;
+import com.course.movieapp.exception.SimpleAuthenticationEntryPoint;
+
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -37,6 +40,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	JwtRequestFilter jwtRequestFilter;
 
+	@Autowired
+	SimpleAuthenticationEntryPoint simpleAuthenticationEntryPoint;
+
+	@Autowired
+	CustomAccessDeniedHandler customAcessDeniedHandler;
+
 	// authentication
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,7 +64,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(ADMIN_URLS).hasRole("ADMIN")
                 .antMatchers(USER_URLS).hasAnyRole("USER")
                 .anyRequest().authenticated()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()				
+				.exceptionHandling().authenticationEntryPoint(simpleAuthenticationEntryPoint)
+				.accessDeniedHandler(customAcessDeniedHandler);
             http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
