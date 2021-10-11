@@ -24,7 +24,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			"/user/edit-comment", "/user/delete-comment", "/user/favourite-movies", "/user/favourite-series" };
 
 	private static final String[] PERMIT_ALL_URLS = { "/user/register", "/user/login", "/user/forgot-password",
-			"/user/reset-password" };
+			"/user/reset-password",
+			// -- Swagger UI v2
+			"/v2/api-docs", "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
+			"/configuration/security", "/swagger-ui.html", "/webjars/**",
+			// -- Swagger UI v3 (OpenAPI)
+			"/v3/api-docs/**", "/swagger-ui/**", "/actuator/**" };
 
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
