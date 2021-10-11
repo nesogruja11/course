@@ -1,4 +1,4 @@
-package com.course.movieapp.util;
+package com.course.movieapp.utils;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;

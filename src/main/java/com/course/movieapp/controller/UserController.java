@@ -34,7 +34,7 @@ import com.course.movieapp.model.AuthenticationResponse;
 import com.course.movieapp.model.Content;
 import com.course.movieapp.model.User;
 import com.course.movieapp.service.UserService;
-import com.course.movieapp.util.JwtUtil;
+import com.course.movieapp.utils.JwtUtil;
 
 import javassist.NotFoundException;
 
