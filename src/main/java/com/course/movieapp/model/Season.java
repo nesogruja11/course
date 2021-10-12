@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,7 @@ public class Season {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int seasonId;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "content_id", nullable = false)
 	private Content content;

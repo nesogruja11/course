@@ -21,4 +21,6 @@ public interface ContentCommentRepository extends JpaRepository<ContentComment, 
 	@Transactional
 	@Modifying
 	void deleteByContent(Content content);
+
+	List<ContentComment> findByContent(Content content);
 }

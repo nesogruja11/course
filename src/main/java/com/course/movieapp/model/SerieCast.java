@@ -1,13 +1,19 @@
 package com.course.movieapp.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 @Getter
 @Setter
@@ -17,10 +23,12 @@ import java.io.Serializable;
 @Table(name = "serie_cast")
 public class SerieCast {
 
+	@JsonIgnore
 	@EmbeddedId
 	@Column(name = "serie_cast_id", nullable = false)
 	private SerieCastKey serieCastKey;
 
+	@JsonIgnore
 	@MapsId("seasonId")
 	@ManyToOne
 	@JoinColumn(name = "season_id", nullable = false)
@@ -35,6 +43,5 @@ public class SerieCast {
 	@ManyToOne
 	@JoinColumn(name = "movie_role_id", nullable = false)
 	private MovieRole movieRole;
-
 
 }

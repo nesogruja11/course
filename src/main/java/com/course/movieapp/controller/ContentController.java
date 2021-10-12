@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.course.movieapp.dto.ContentByCategoryDto;
-import com.course.movieapp.dto.MovieDetailsDto;
+import com.course.movieapp.dto.ContentDetailsDto;
 import com.course.movieapp.dto.SaveMovieDto;
 import com.course.movieapp.dto.SaveSerieDto;
 import com.course.movieapp.dto.UpdateMovieDto;
@@ -56,9 +56,9 @@ public class ContentController {
 		return contentService.getContentByCategory(contentByCategoryDto);
 	}
 
-	@GetMapping("/movie-details")
-	public MovieDetailsDto getMovieDetails(@RequestParam int contentId) throws NotFoundException {
-		return contentService.getMovieDetails(contentId);
+	@GetMapping("/details")
+	public ContentDetailsDto getContentDetails(@RequestParam int contentId) throws NotFoundException {
+		return contentService.getContentDetails(contentId);
 	}
 
 	@PostMapping("/save-serie")
