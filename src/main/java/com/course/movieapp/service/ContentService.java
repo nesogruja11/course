@@ -3,6 +3,7 @@ package com.course.movieapp.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.course.movieapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,19 +15,6 @@ import com.course.movieapp.dto.SaveSeasonDto;
 import com.course.movieapp.dto.SaveSerieDto;
 import com.course.movieapp.dto.UpdateMovieDto;
 import com.course.movieapp.dto.UpdateSerieDto;
-import com.course.movieapp.model.Content;
-import com.course.movieapp.model.ContentComment;
-import com.course.movieapp.model.ContentGenre;
-import com.course.movieapp.model.ContentGenreKey;
-import com.course.movieapp.model.Episode;
-import com.course.movieapp.model.Genre;
-import com.course.movieapp.model.MovieCast;
-import com.course.movieapp.model.MovieCastKey;
-import com.course.movieapp.model.MoviePeople;
-import com.course.movieapp.model.MovieRole;
-import com.course.movieapp.model.Season;
-import com.course.movieapp.model.SerieCast;
-import com.course.movieapp.model.SerieCastKey;
 import com.course.movieapp.repository.ContentCommentRepository;
 import com.course.movieapp.repository.ContentGenreRepository;
 import com.course.movieapp.repository.ContentRepository;
@@ -166,11 +154,12 @@ public class ContentService {
 		List<ContentGenre> contentGenreList = contentgenreGenreService
 				.findAllByGenreId(contentByCategoryDto.getGenreId());
 		if (contentByCategoryDto.getNumberOfElements() > 0) {
-			List<Content> contentList = contentGenreList.stream().map(e -> e.getContent())
+			List<Content> contentList = contentGenreList.stream().filter(e -> e.getContent().getContentType().getContentTypeId() == contentByCategoryDto.getContentTypeId()).map(e -> e.getContent())
 					.limit(contentByCategoryDto.getNumberOfElements()).collect(Collectors.toList());
 			return contentList;
 		}
-		List<Content> contentList = contentGenreList.stream().map(e -> e.getContent()).collect(Collectors.toList());
+		List<Content> contentList = contentGenreList.stream().filter(e -> e.getContent().getContentType().getContentTypeId() == contentByCategoryDto.getContentTypeId()).map(e -> e.getContent())
+				.collect(Collectors.toList());
 		return contentList;
 	}
 
@@ -251,6 +240,16 @@ public class ContentService {
 		content.setContentId(contentDto.getContentId());
 		copyFromDtoToObject(content, contentDto);
 		return content;
+	}
+
+	public List<Content> getByRating(int contentTypeId) throws NotFoundException {
+		ContentType contentType = contentTypeService.findById(contentTypeId);
+		return contentRepository.findAllByContentTypeOrderByRatingDesc(contentType);
+	}
+
+	public List<Content> getByReleaseDate(int contentTypeId) throws NotFoundException {
+		ContentType contentType = contentTypeService.findById(contentTypeId);
+		return contentRepository.findAllByContentTypeOrderByReleaseDateDesc(contentType);
 	}
 
 	private void copyFromDtoToObject(Content content, ContentDto contentDto) throws NotFoundException {

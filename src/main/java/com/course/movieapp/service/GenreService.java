@@ -9,6 +9,8 @@ import com.course.movieapp.repository.GenreRepository;
 
 import javassist.NotFoundException;
 
+import java.util.List;
+
 @Service
 public class GenreService {
 
@@ -37,6 +39,10 @@ public class GenreService {
 		} else {
 			throw new NotFoundException("Nije pronađen žanr sa id-em:" + genreId);
 		}
+	}
+
+	public List<Genre> getAll() {
+		return genreRepository.findAll();
 	}
 
 	private Genre createGenreFromDto(GenreDto genreDto) {

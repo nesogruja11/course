@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ContentByCategoryDto {
 
+	private int contentTypeId;
 	private int genreId;
 	private int numberOfElements = 0;
 }

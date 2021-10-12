@@ -34,7 +34,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		List<UserRole> userRoles = userRoleRepository.findByUser(user.get());
 
 		AuthUserDetails auth = new AuthUserDetails(user, userRoles);
-		System.out.println(auth.toString());
 		return auth;
 	}
 
