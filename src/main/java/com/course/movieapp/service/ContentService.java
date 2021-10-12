@@ -7,14 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.course.movieapp.dto.ContentByCategoryDto;
+import com.course.movieapp.dto.ContentDetailsDto;
 import com.course.movieapp.dto.ContentDto;
-import com.course.movieapp.dto.MovieDetailsDto;
 import com.course.movieapp.dto.SaveMovieDto;
 import com.course.movieapp.dto.SaveSeasonDto;
 import com.course.movieapp.dto.SaveSerieDto;
 import com.course.movieapp.dto.UpdateMovieDto;
 import com.course.movieapp.dto.UpdateSerieDto;
 import com.course.movieapp.model.Content;
+import com.course.movieapp.model.ContentComment;
 import com.course.movieapp.model.ContentGenre;
 import com.course.movieapp.model.ContentGenreKey;
 import com.course.movieapp.model.Episode;
@@ -94,6 +95,9 @@ public class ContentService {
 	@Autowired
 	EpisodeRepository episodeRepository;
 
+	@Autowired
+	ContentCommentService contentCommentService;
+
 	public Content saveMovie(SaveMovieDto saveMovieDto) throws NotFoundException {
 		Content content = contentRepository.save(createContentFromDto(saveMovieDto));
 
@@ -170,12 +174,14 @@ public class ContentService {
 		return contentList;
 	}
 
-	public MovieDetailsDto getMovieDetails(int contentId) throws NotFoundException {
+	public ContentDetailsDto getContentDetails(int contentId) throws NotFoundException {
 		Content content = findById(contentId);
 		List<Genre> genres = contentgenreGenreService.findAllByContent(content).stream().map(e -> e.getGenre())
 				.collect(Collectors.toList());
 		List<MovieCast> movieCastList = movieCastService.findAllByContent(content);
-		return new MovieDetailsDto(content, genres, movieCastList);
+		List<ContentComment> contentComments = contentCommentService.findByContent(content);
+		List<Season> seasons = seasonService.findByContent(content);
+		return new ContentDetailsDto(content, genres, movieCastList, contentComments, seasons);
 	}
 
 	public Content saveSerie(SaveSerieDto saveSerieDto) throws NotFoundException {

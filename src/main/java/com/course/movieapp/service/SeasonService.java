@@ -45,6 +45,13 @@ public class SeasonService {
 				.orElseThrow(() -> new NotFoundException("Nije pronađena sezona sa id-em:" + id));
 	}
 
+	public List<Season> findByContent(Content content) throws NotFoundException {
+		if (contentService.existById(content.getContentId())) {
+			return seasonRepository.findAllByContent(content);
+		}
+		throw new NotFoundException("Nije pronađen sadržaj sa id-em:" + content.getContentId());
+	}
+
 	public void delete(int id) throws NotFoundException {
 		if (seasonRepository.existsById(id)) {
 			Season season = findById(id);

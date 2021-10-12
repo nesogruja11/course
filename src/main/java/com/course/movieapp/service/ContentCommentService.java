@@ -1,10 +1,13 @@
 package com.course.movieapp.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.course.movieapp.dto.ContentCommentDto;
 import com.course.movieapp.dto.EditCommentDto;
+import com.course.movieapp.model.Content;
 import com.course.movieapp.model.ContentComment;
 import com.course.movieapp.repository.ContentCommentRepository;
 
@@ -47,6 +50,13 @@ public class ContentCommentService {
 	public ContentComment findById(int id) throws NotFoundException {
 		return contentCommentRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("Nije pronađen komentar sa id-em:" + id));
+	}
+
+	public List<ContentComment> findByContent(Content content) throws NotFoundException {
+		if (contentService.existById(content.getContentId())) {
+			return contentCommentRepository.findByContent(content);
+		}
+		throw new NotFoundException("Nije pronađen sadržaj sa id-em:" + content.getContentId());
 	}
 
 	private boolean checkIfCommentExist(int commentId, int replayId) {
