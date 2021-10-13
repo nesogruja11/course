@@ -21,11 +21,12 @@ import com.course.movieapp.exception.SimpleAuthenticationEntryPoint;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final String[] ADMIN_URLS = { "/movie-role/**", "/movie-people/**", "/language/**",
-			"/content-type/**", "/country/**", "/genre/**", "/content/**", "/user/comment" };
+			"/content-type/**", "/country/**", "/genre/**", "/content/**" };
 
 	private static final String[] USER_URLS = { "/user/rating", "/user/update", "/user/favour", "/user/comment",
 			"/user/edit-comment", "/user/delete-comment", "/user/favourite-movies", "/user/favourite-series",
-			"/content/details", "/genre/all", "/content/by-category", "/content/by-release-date", "/content/by-rating"};
+			"/content/details", "/genre/all", "/content/by-category", "/content/by-release-date",
+			"/content/by-rating" };
 
 	private static final String[] PERMIT_ALL_URLS = { "/user/register", "/user/login", "/user/forgot-password",
 			"/user/reset-password",
@@ -63,7 +64,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(PERMIT_ALL_URLS).permitAll()
                 .antMatchers(ADMIN_URLS).hasRole("ADMIN")
-                .antMatchers(USER_URLS).hasAnyRole("USER")
+                .antMatchers(USER_URLS).hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()				
