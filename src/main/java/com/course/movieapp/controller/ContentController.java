@@ -71,4 +71,14 @@ public class ContentController {
 		return contentService.updateSerie(updateSerieDto);
 	}
 
+	@GetMapping("/by-rating")
+	public List<Content> getByRating(@RequestParam int contentTypeId) throws NotFoundException {
+		return contentService.getByRating(contentTypeId);
+	}
+
+	@GetMapping("/by-release-date")
+	public List<Content> getByReleaseDate(@RequestParam int contentTypeId) throws NotFoundException {
+		return contentService.getByReleaseDate(contentTypeId);
+	}
+
 }

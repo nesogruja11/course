@@ -18,6 +18,8 @@ import com.course.movieapp.service.GenreService;
 
 import javassist.NotFoundException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/genre")
 public class GenreController {
@@ -36,12 +38,17 @@ public class GenreController {
 	}
 
 	@PutMapping("/update")
-	private Genre update(@Valid @RequestBody Genre genre) throws NotFoundException {
+	public Genre update(@Valid @RequestBody Genre genre) throws NotFoundException {
 		return genreService.update(genre);
 	}
 
 	@DeleteMapping("/delete")
-	private void delete(@RequestParam int id) throws NotFoundException {
+	public void delete(@RequestParam int id) throws NotFoundException {
 		genreService.delete(id);
+	}
+
+	@GetMapping("/all")
+	public List<Genre> getAll(){
+		return genreService.getAll();
 	}
 }
