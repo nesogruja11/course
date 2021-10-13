@@ -21,7 +21,7 @@ import com.course.movieapp.exception.SimpleAuthenticationEntryPoint;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final String[] ADMIN_URLS = { "/movie-role/**", "/movie-people/**", "/language/**",
-			"/content-type/**", "/country/**", "/genre/**", "/content/**" };
+			"/content-type/**", "/country/**", "/genre/**", "/content/**", "/user/comment" };
 
 	private static final String[] USER_URLS = { "/user/rating", "/user/update", "/user/favour", "/user/comment",
 			"/user/edit-comment", "/user/delete-comment", "/user/favourite-movies", "/user/favourite-series",

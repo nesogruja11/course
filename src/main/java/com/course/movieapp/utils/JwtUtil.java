@@ -5,11 +5,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.course.movieapp.model.User;
+import com.course.movieapp.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,6 +27,9 @@ public class JwtUtil {
 	private String SECRET_KEY;
 
 	private LocalDateTime expirationDate;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
@@ -46,6 +54,9 @@ public class JwtUtil {
 
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<>();
+		System.out.println(userDetails.getUsername());
+		Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
+		claims.put("userId", user.get().getUserId());
 		return createToken(claims, userDetails.getUsername());
 	}
 
