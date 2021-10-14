@@ -56,6 +56,8 @@ public class JwtUtil {
 		Map<String, Object> claims = new HashMap<>();
 		Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 		claims.put("userId", user.get().getUserId());
+		claims.put("firstName", user.get().getFirstName());
+		claims.put("lastName", user.get().getLastName());
 		return createToken(claims, userDetails.getUsername());
 	}
 
