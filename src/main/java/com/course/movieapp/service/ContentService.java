@@ -3,7 +3,6 @@ package com.course.movieapp.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.course.movieapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +14,21 @@ import com.course.movieapp.dto.SaveSeasonDto;
 import com.course.movieapp.dto.SaveSerieDto;
 import com.course.movieapp.dto.UpdateMovieDto;
 import com.course.movieapp.dto.UpdateSerieDto;
+import com.course.movieapp.model.Content;
+import com.course.movieapp.model.ContentComment;
+import com.course.movieapp.model.ContentGenre;
+import com.course.movieapp.model.ContentGenreKey;
+import com.course.movieapp.model.ContentType;
+import com.course.movieapp.model.Episode;
+import com.course.movieapp.model.Genre;
+import com.course.movieapp.model.MovieCast;
+import com.course.movieapp.model.MovieCastKey;
+import com.course.movieapp.model.MoviePeople;
+import com.course.movieapp.model.MovieRole;
+import com.course.movieapp.model.Season;
+import com.course.movieapp.model.SerieCast;
+import com.course.movieapp.model.SerieCastKey;
+import com.course.movieapp.model.User;
 import com.course.movieapp.repository.ContentCommentRepository;
 import com.course.movieapp.repository.ContentGenreRepository;
 import com.course.movieapp.repository.ContentRepository;
@@ -26,6 +40,7 @@ import com.course.movieapp.repository.MovieRoleRepository;
 import com.course.movieapp.repository.ReviewRepository;
 import com.course.movieapp.repository.SeasonRepository;
 import com.course.movieapp.repository.SerieCastRepository;
+import com.course.movieapp.utils.SecurityUtils;
 
 import javassist.NotFoundException;
 
@@ -85,6 +100,12 @@ public class ContentService {
 
 	@Autowired
 	ContentCommentService contentCommentService;
+
+	@Autowired
+	ReviewService reviewService;
+
+	@Autowired
+	UserService userService;
 
 	public Content saveMovie(SaveMovieDto saveMovieDto) throws NotFoundException {
 		Content content = contentRepository.save(createContentFromDto(saveMovieDto));
@@ -154,23 +175,30 @@ public class ContentService {
 		List<ContentGenre> contentGenreList = contentgenreGenreService
 				.findAllByGenreId(contentByCategoryDto.getGenreId());
 		if (contentByCategoryDto.getNumberOfElements() > 0) {
-			List<Content> contentList = contentGenreList.stream().filter(e -> e.getContent().getContentType().getContentTypeId() == contentByCategoryDto.getContentTypeId()).map(e -> e.getContent())
-					.limit(contentByCategoryDto.getNumberOfElements()).collect(Collectors.toList());
+			List<Content> contentList = contentGenreList.stream().filter(
+					e -> e.getContent().getContentType().getContentTypeId() == contentByCategoryDto.getContentTypeId())
+					.map(e -> e.getContent()).limit(contentByCategoryDto.getNumberOfElements())
+					.collect(Collectors.toList());
 			return contentList;
 		}
-		List<Content> contentList = contentGenreList.stream().filter(e -> e.getContent().getContentType().getContentTypeId() == contentByCategoryDto.getContentTypeId()).map(e -> e.getContent())
-				.collect(Collectors.toList());
+		List<Content> contentList = contentGenreList.stream().filter(
+				e -> e.getContent().getContentType().getContentTypeId() == contentByCategoryDto.getContentTypeId())
+				.map(e -> e.getContent()).collect(Collectors.toList());
 		return contentList;
 	}
 
 	public ContentDetailsDto getContentDetails(int contentId) throws NotFoundException {
+
+		String userName = SecurityUtils.getUsername();
+		User user = userService.findUserByUsername(userName).get();
 		Content content = findById(contentId);
+		boolean favourite = reviewService.existsByContentAndUserAndFavourite(content, user, true);
 		List<Genre> genres = contentgenreGenreService.findAllByContent(content).stream().map(e -> e.getGenre())
 				.collect(Collectors.toList());
 		List<MovieCast> movieCastList = movieCastService.findAllByContent(content);
 		List<ContentComment> contentComments = contentCommentService.findByContent(content);
 		List<Season> seasons = seasonService.findByContent(content);
-		return new ContentDetailsDto(content, genres, movieCastList, contentComments, seasons);
+		return new ContentDetailsDto(content, genres, movieCastList, contentComments, seasons, favourite);
 	}
 
 	public Content saveSerie(SaveSerieDto saveSerieDto) throws NotFoundException {
