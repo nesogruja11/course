@@ -43,9 +43,6 @@ import javassist.NotFoundException;
 @RequestMapping("/user")
 public class UserController {
 
-	private static final int FILM = 1;
-	private static final int SERIJA = 2;
-
 	@Autowired
 	UserService userService;
 
@@ -132,13 +129,9 @@ public class UserController {
 		userService.deleteComment(id);
 	}
 
-	@GetMapping("/favourite-movies")
+	@GetMapping("/favourite-content")
 	public List<Content> getFavouriteMovies() {
-		return userService.getFavouriteContent(FILM);
+		return userService.getFavouriteContent();
 	}
 
-	@GetMapping("/favourite-series")
-	public List<Content> getFavouriteSeries() {
-		return userService.getFavouriteContent(SERIJA);
-	}
 }
