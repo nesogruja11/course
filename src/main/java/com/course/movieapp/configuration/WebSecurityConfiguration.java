@@ -24,9 +24,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			"/content-type/**", "/country/**", "/genre/**", "/content/**" };
 
 	private static final String[] USER_URLS = { "/user/rating", "/user/update", "/user/favour", "/user/comment",
-			"/user/edit-comment", "/user/delete-comment", "/user/favourite-movies", "/user/favourite-series",
-			"/content/details", "/genre/all", "/content/by-category", "/content/by-release-date",
-			"/content/by-rating" };
+			"/user/edit-comment", "/user/delete-comment", "/user/favourite-content", "/content/details", "/genre/all",
+			"/content/by-category", "/content/by-release-date", "/content/by-rating" };
 
 	private static final String[] PERMIT_ALL_URLS = { "/user/register", "/user/login", "/user/forgot-password",
 			"/user/reset-password",

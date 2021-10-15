@@ -203,12 +203,11 @@ public class UserService {
 		contentCommentService.delete(id);
 	}
 
-	public List<Content> getFavouriteContent(int contentTypeId) {
+	public List<Content> getFavouriteContent() {
 		String userName = SecurityUtils.getUsername();
 		User user = findUserByUsername(userName).get();
-		List<Content> contents = reviewService.findByUserAndFavourite(user, true).stream()
-				.filter(e -> e.getContent().getContentType().getContentTypeId() == contentTypeId)
-				.map(e -> e.getContent()).collect(Collectors.toList());
+		List<Content> contents = reviewService.findByUserAndFavourite(user, true).stream().map(e -> e.getContent())
+				.collect(Collectors.toList());
 
 		return contents;
 	}
