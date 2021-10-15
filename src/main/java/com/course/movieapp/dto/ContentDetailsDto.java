@@ -28,13 +28,14 @@ public class ContentDetailsDto {
 	private LocalDate releaseDate;
 	private String coverLink;
 	private String trailerLink;
+	private boolean favourite = false;
 	private List<Genre> genres;
 	private List<MovieCast> movieCastList;
 	private List<ContentComment> contentComments;
 	private List<Season> seasons;
 
 	public ContentDetailsDto(Content content, List<Genre> genres, List<MovieCast> movieCastList,
-			List<ContentComment> contentComments, List<Season> seasons) {
+			List<ContentComment> contentComments, List<Season> seasons, boolean favourite) {
 		this.contentType = content.getContentType();
 		this.country = content.getCountry();
 		this.language = content.getLanguage();
@@ -48,5 +49,6 @@ public class ContentDetailsDto {
 		this.movieCastList = movieCastList;
 		this.contentComments = contentComments;
 		this.seasons = seasons;
+		this.favourite = favourite;
 	}
 }

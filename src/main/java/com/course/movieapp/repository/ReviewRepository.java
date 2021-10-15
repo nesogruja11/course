@@ -28,6 +28,8 @@ public interface ReviewRepository extends JpaRepository<Review, ReviewKey> {
 
 	boolean existsByReviewKey(ReviewKey reviewKey);
 
+	boolean existsByContentAndUserAndFavourite(Content content, User user, boolean favourite);
+
 	List<Review> findByContent(Content content);
 
 	List<Review> findByUserAndFavourite(User user, boolean favourite);

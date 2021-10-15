@@ -26,9 +26,6 @@ public class ReviewService {
 	@Autowired
 	UserService userService;
 
-	// omoguciti da se prilikom save, update i delete metoda updateuje i ukupan
-	// rating za neki content ! ! !
-
 	public Review save(ReviewDto reviewDto) throws NotFoundException {
 		return reviewRepository.save(buildReviewFromDto(reviewDto));
 	}
@@ -39,6 +36,10 @@ public class ReviewService {
 		}
 		throw new NotFoundException("Nije pronađen utisak za content sa id-em:" + reviewDto.getContentId()
 				+ " od korisnika sa id-em:" + reviewDto.getUserId());
+	}
+
+	public boolean existsByContentAndUserAndFavourite(Content content, User user, boolean favourite) {
+		return reviewRepository.existsByContentAndUserAndFavourite(content, user, favourite);
 	}
 
 	// dovoljno je poslati contentId i userId za brisanje review-a
